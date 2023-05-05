@@ -4,6 +4,7 @@ import pandas as pd
 app = Flask("My Website")
 
 stations_data = pd.read_csv("data_small/stations.txt", skiprows=17)
+
 stations = stations_data[['STAID', 'STANAME']].sort_values(by=['STANAME'])
 stations = stations[(stations['STAID'] >= 0) & (stations['STAID'] <= 100)]
 
@@ -48,4 +49,16 @@ def home_page(station, date):
     return wrap
 
 
-app.run(debug=True)
+@app.route("/api/v1/<station>")
+def all_data(station):
+    filename = "data_small/TG_STAID" + str(station).zfill(6) + ".txt"
+    df = pd.read_csv(filename, skiprows=20, parse_dates=['    DATE'])
+
+    df["   TG"] = [temp/10 for temp in df["   TG"]]
+
+    result = df.to_dict(orient='records')
+    return result
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
