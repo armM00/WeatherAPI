@@ -6,7 +6,7 @@ app = Flask("My Website")
 stations_data = pd.read_csv("data_small/stations.txt", skiprows=17)
 
 stations = stations_data[['STAID', 'STANAME']].sort_values(by=['STANAME'])
-stations = stations[(stations['STAID'] >= 0) & (stations['STAID'] <= 100)]
+stations = stations[(stations['STAID'] >= 0)]
 
 
 @app.route("/")
