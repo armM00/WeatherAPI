@@ -15,7 +15,7 @@ FILE FORMAT (MISSING VALUE CODE IS -9999):
  61- 70 LON    : Longitude in degrees:minutes:seconds (+: East, -: West)
  72- 76 HGTH   : Station elevation in meters
 
-STAID,STANAME                                 ,CN,      LAT,       LON,HGHT
+STAID,STANAME,CN,      LAT,       LON,HGHT
     1,VAEXJOE                                 ,SE,+56:52:00,+014:48:00,  166
     2,FALUN                                   ,SE,+60:37:00,+015:37:00,  160
     3,STENSELE                                ,SE,+65:04:00,+017:09:59,  325
@@ -32,6 +32,7 @@ STAID,STANAME                                 ,CN,      LAT,       LON,HGHT
    14,SALZBURG-FLUGHAFEN                      ,AT,+47:47:21,+013:00:29,  430
    15,SONNBLICK (TAWES)                       ,AT,+47:03:15,+012:57:27, 3109
    16,WIEN-HOHE WARTE                         ,AT,+48:14:54,+016:21:23,  198
+   17,YEREVAN                                 ,AM,+40:12:00,+044:30:00, 1113
    21,ZAGREB-GRIC                             ,HR,+45:49:00,+015:58:41,  156
    22,AMIANDOS                                ,CY,+34:55:59,+032:55:00, 1360
    23,LARNACA                                 ,CY,+34:52:59,+033:37:59,    1
@@ -237,7 +238,6 @@ STAID,STANAME                                 ,CN,      LAT,       LON,HGHT
   278,ALGER-DAR EL BEIDA                      ,DZ,+36:43:00,+003:15:00,   24
   280,ARSDORF_1                               ,LU,+49:51:36,+005:50:57,  419
   287,KOERICH_1                               ,LU,+49:40:45,+005:56:43,  262
-  289,YEREVAN                                 ,AM,+40:12:00,+044:30:00, 1113
   298,ILULISSAT                               ,GL,+69:13:12,-051:06:00,   39
   299,TASIILAQ                                ,GL,+65:35:59,-037:37:59,   50
   300,ILULISSAT (JAKOBSHAVN)                  ,GL,+69:13:00,-051:03:00,   39
