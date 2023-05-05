@@ -26,27 +26,27 @@ def home_page(station, date):
     :temperature: converted to Celsius temperatures for each date
     :stations_file: collection of available stations with skipped metadata
     """
+    if len(date) > 4:
+        filename = "data_small/TG_STAID" + str(station).zfill(6) + ".txt"
+        df = pd.read_csv(filename, skiprows=20, parse_dates=['    DATE'])
+        temperature = df.loc[df['    DATE'] == date]['   TG'].squeeze() / 10
 
-    filename = "data_small/TG_STAID" + str(station).zfill(6) + ".txt"
-    df = pd.read_csv(filename, skiprows=20, parse_dates=['    DATE'])
-    temperature = df.loc[df['    DATE'] == date]['   TG'].squeeze() / 10
+        stations_file = pd.read_csv("data_small/stations.txt", skiprows=17)
+        station_name = stations_file[stations_file['STAID'] == int(station)]['STANAME'].item()
 
-    stations_file = pd.read_csv("data_small/stations.txt", skiprows=17)
-    station_name = stations_file[stations_file['STAID'] == int(station)]['STANAME'].item()
+        unavailable_temperature_message = """The data for this day is unavailable.
+        For different stations the available data can vary.
+        Try to find data between Jan 1 1860 - Dec 31 2003."
+        For extensive stations try with until May 31 2022."""
 
-    unavailable_temperature_message = """The data for this day is unavailable.
-    For different stations the available data can vary.
-    Try to find data between Jan 1 1860 - Dec 31 2003."
-    For extensive stations try with until May 31 2022."""
+        wrap = {'station name': station_name.strip(),
+                "station_id": station,
+                "date": f"Month: {date[4:6]} Day: {date[6:8]} Year: {date[:4]}",
+                "date_api_format": date,
+                'temperature': temperature if temperature != -999.9
+                else unavailable_temperature_message}
 
-    wrap = {'station name': station_name.strip(),
-            "station_id": station,
-            "date": f"Month: {date[4:6]} Day: {date[6:8]} Year: {date[:4]}",
-            "date_api_format": date,
-            'temperature': temperature if temperature != -999.9
-            else unavailable_temperature_message}
-
-    return wrap
+        return wrap
 
 
 @app.route("/api/v1/<station>")
@@ -57,6 +57,16 @@ def all_data(station):
     df["   TG"] = [temp/10 for temp in df["   TG"]]
 
     result = df.to_dict(orient='records')
+    return result
+
+
+@app.route("/api/v1/yearly/<station>/<year>")
+def yearly(station, year):
+
+    filename = "data_small/TG_STAID" + str(station).zfill(6) + ".txt"
+    df = pd.read_csv(filename, skiprows=20)
+    df['    DATE'] = df['    DATE'].astype(str)
+    result = df[df['    DATE'].str.startswith(str(year))].to_dict(orient='records')
     return result
 
 
